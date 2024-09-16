@@ -92,7 +92,7 @@ const PersonalInformationContainer = () => {
             {/* input  phone number  */}
             <Form.Item label="Phone Number" name="phone">
               {edit ? (
-                <PhoneInput size="large"></PhoneInput>
+                <PhoneInput size="large" enableArrow enableSearch></PhoneInput>
               ) : (
                 <PhoneInput size="large"  readOnly  enableArrow enableSearch></PhoneInput>
               )}

@@ -1,6 +1,4 @@
 import { Metadata } from "next";
-import Image from "next/image";
-import logo from "@/assets/logo.png";
 import VerifyEmailForm from "@/components/(auth)/verifyEmail/VerifyForm";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Link from "next/link";
