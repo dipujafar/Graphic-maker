@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.ant-menu-title-content {
+font-size: 18px;
+color: #ffffff;
+padding-left: 10px;
+
+}
+
+
+
+.ant-menu-item > svg {
+  color: #ffffff !important;
+}
+
+
+.sidebar-menu{
+  background-color: #0A8948 !important;
+}
+
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.ql-toolbar {
+  margin-bottom: 12px !important;
+  display: flex;
+  justify-content: end;
+  border: none !important;
+}
+
+.ql-formats {
+  background-color: white;
+  border-radius: 3px;
+}
+
+.ql-container {
+  background-color: white;
+  height: 620px !important;
+  border: none !important;
+  border-radius: 10px;
+  overflow: auto !important;
+}
+
+
+
+.ant-menu-item-selected{
+  color: #0A8948 !important;
+}
+.ant-menu-item-selected >span > a {
+  color: #0A8948 !important;
+  font-size: 18px;
+}
+
+.ant-menu-item-selected > svg {
+  color: #0A8948 !important;
+} 
+.ant-dropdown-trigger .anticon svg{
+  fill: #fff !important;
+}
