@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
 import profile from "@/assets/image/adminProfile.png";
 import { useState } from "react";
+import PhoneInput from "antd-phone-input";
 import { toast } from "sonner";
 
 const PersonalInformationContainer = () => {
@@ -63,7 +64,7 @@ const PersonalInformationContainer = () => {
             initialValues={{
               name: "James Tracy",
               email: "enrique@gmail.com",
-              phone: "3000597212",
+              phone: "+880175544",
             }}
           >
             {/*  input  name */}
@@ -80,11 +81,7 @@ const PersonalInformationContainer = () => {
             </Form.Item>
 
             {/*  input  email */}
-            <Form.Item
-              label="Email"
-              name="email"
-            
-            >
+            <Form.Item label="Email" name="email">
               {edit ? (
                 <Input size="large" placeholder="Enter email "></Input>
               ) : (
@@ -95,13 +92,9 @@ const PersonalInformationContainer = () => {
             {/* input  phone number  */}
             <Form.Item label="Phone Number" name="phone">
               {edit ? (
-                <Input size="large" placeholder="Enter Phone number"></Input>
+                <PhoneInput size="large"></PhoneInput>
               ) : (
-                <Input
-                  size="large"
-                  placeholder="Enter Phone number"
-                  readOnly
-                ></Input>
+                <PhoneInput size="large"  readOnly  enableArrow enableSearch></PhoneInput>
               )}
             </Form.Item>
 

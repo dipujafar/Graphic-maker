@@ -38,6 +38,9 @@ const antTheme = {
     Spin: {
       colorPrimary: "#0A8948",
     },
+    DatePicker: {
+      colorBorder: "rgb(13,183,96)",
+    },
   },
 };
 

@@ -5,6 +5,8 @@ import { useState } from "react";
 import DataTable from "@/utils/DataTable";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { TbMessage } from "react-icons/tb";
+import RequestDetailsModal from "./RequestDetailsModal";
+import Link from "next/link";
 
 type TDataType = {
   key: number;
@@ -92,9 +94,12 @@ const RequestTable = () => {
           <MdOutlineErrorOutline
             size={20}
             color="#0A8948"
+            className="cursor-pointer"
             onClick={() => setOpen(!open)}
           />
-          <TbMessage size={20} />
+          <Link href={"/message"}>
+          <TbMessage color="#232323" className="cursor-pointer" size={20} />
+          </Link>
         </div>
       ),
     },
@@ -103,6 +108,7 @@ const RequestTable = () => {
   return (
     <div>
       <DataTable columns={columns} data={data} pageSize={10}></DataTable>
+      <RequestDetailsModal open={open} setOpen={setOpen}></RequestDetailsModal>
     </div>
   );
 };

@@ -60,6 +60,7 @@ const RecentTransactionsTable = () => {
         <MdOutlineErrorOutline
           size={20}
           color="#0A8948"
+          className="cursor-pointer"
           onClick={() => setOpen(!open)}
         />
       ),
