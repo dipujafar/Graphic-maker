@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
-import {  ConfigProvider, Layout, theme } from "antd";
+import { ConfigProvider, Layout, theme } from "antd";
 import SidebarContainer from "@/components/(adminDashboard)/layout/SidebarContainer";
 import HeaderContainer from "@/components/(adminDashboard)/layout/HeaderContainer";
 
@@ -18,11 +18,11 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
       theme={{
         components: {
           Input: {
-            colorBorder: "rgb(184,124,174)",
+            colorBorder: "rgb(13,183,96)",
           },
           Form: {
-            labelRequiredMarkColor: "rgb(255,255,255)",
-            labelFontSize: 18,
+            labelFontSize: 16,
+            labelColor: "rgb(51,51,51)",
           },
         },
       }}

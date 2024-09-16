@@ -1,5 +1,5 @@
 "use client";
-import { Button, ConfigProvider, Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -40,7 +40,7 @@ const PersonalInformationContainer = () => {
 
       {/* personal information */}
       <div className="mt-10 flex justify-center  gap-10">
-        <div className="bg-[#F8D9E1] h-[365px] w-1/4 rounded-xl border border-[#8D2E7D] flex justify-center items-center ">
+        <div className="bg-[#DBF4E7] h-[365px] w-1/4 rounded-xl border border-[#8D2E7D] flex justify-center items-center ">
           <div className="space-y-1">
             <Image
               src={profile}
@@ -53,78 +53,64 @@ const PersonalInformationContainer = () => {
         </div>
         {/* form */}
         <div className="w-2/4">
-          <ConfigProvider
-            theme={{
-              components: {
-                Input: {
-                  colorBgContainer: "rgb(248,217,225)",
-                },
-              },
+          <Form
+            form={form}
+            onFinish={handleSubmit}
+            layout="vertical"
+            style={{
+              marginTop: "25px",
+            }}
+            initialValues={{
+              name: "James Tracy",
+              email: "enrique@gmail.com",
+              phone: "3000597212",
             }}
           >
-            <Form
-              form={form}
-              onFinish={handleSubmit}
-              layout="vertical"
-              style={{
-                marginTop: "25px",
-              }}
-              initialValues={{
-                name: "James Tracy",
-                email: "enrique@gmail.com",
-                phone: "3000597212",
-              }}
+            {/*  input  name */}
+            <Form.Item label="Name" name="name">
+              {edit ? (
+                <Input size="large" placeholder="Enter full name "></Input>
+              ) : (
+                <Input
+                  size="large"
+                  placeholder="Enter full name "
+                  readOnly
+                ></Input>
+              )}
+            </Form.Item>
+
+            {/*  input  email */}
+            <Form.Item
+              label="Email"
+              name="email"
+            
             >
-              {/*  input  name */}
-              <Form.Item label="Name" name="name">
-                {edit ? (
-                  <Input size="large" placeholder="Enter full name "></Input>
-                ) : (
-                  <Input
-                    size="large"
-                    placeholder="Enter full name "
-                    readOnly
-                  ></Input>
-                )}
-              </Form.Item>
+              {edit ? (
+                <Input size="large" placeholder="Enter email "></Input>
+              ) : (
+                <Input size="large" placeholder="Enter email" readOnly></Input>
+              )}
+            </Form.Item>
 
-              {/*  input  email */}
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ type: "email", required: true }]}
-              >
-                {edit ? (
-                  <Input size="large" placeholder="Enter email "></Input>
-                ) : (
-                  <Input
-                    size="large"
-                    placeholder="Enter email"
-                    readOnly
-                  ></Input>
-                )}
-              </Form.Item>
+            {/* input  phone number  */}
+            <Form.Item label="Phone Number" name="phone">
+              {edit ? (
+                <Input size="large" placeholder="Enter Phone number"></Input>
+              ) : (
+                <Input
+                  size="large"
+                  placeholder="Enter Phone number"
+                  readOnly
+                ></Input>
+              )}
+            </Form.Item>
 
-              {/* input  phone number  */}
-              <Form.Item label="Phone Number" name="phone">
-                {edit ? (
-                  <Input size="large" placeholder="Enter Phone number"></Input>
-                ) : (
-                  <Input
-                    size="large"
-                    placeholder="Enter Phone number"
-                    readOnly
-                  ></Input>
-                )}
-              </Form.Item>
-
-              <div className={edit ? "" : "hidden"}>
-                <Button htmlType="submit" size="large" block>
-                  Save Change
-                </Button>
-              </div>
-            </Form>
-          </ConfigProvider>
+            <div className={edit ? "" : "hidden"}>
+              <Button htmlType="submit" size="large" block>
+                Save Change
+              </Button>
+            </div>
+          </Form>
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const ForgetPasswordModal = ({ open, setOpen }: TPropsType) => {
       >
         <div className="py-14">
           <div
-            className="w-12 h-12 bg-mainColor  absolute top-0 right-0 rounded-bl-3xl cursor-pointer"
+            className="w-12 h-12 bg-[#D7263D]  absolute top-0 right-0 rounded-bl-3xl cursor-pointer"
             onClick={() => setOpen(false)}
           >
             <RiCloseLargeLine

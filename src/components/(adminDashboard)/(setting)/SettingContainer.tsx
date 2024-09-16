@@ -13,18 +13,7 @@ const links = [
     lable: "Change Password",
     path: "changePassword",
   },
-  {
-    lable: "Terms & Condition",
-    path: "termsCondition",
-  },
-  {
-    lable: "Privacy Policy",
-    path: "privacyPolicy",
-  },
-  {
-    lable: "About Us",
-    path: "aboutUs",
-  },
+
 ];
 
 const SettingContainer = () => {
@@ -34,7 +23,7 @@ const SettingContainer = () => {
       {links?.map((link,inx) => {
         if (link.path === "changePassword") {
           return (
-            <div key={inx} onClick={()=>setOpen(!open)} className="bg-[#F8D9E1] p-5 rounded flex justify-between items-center cursor-pointer">
+            <div key={inx} onClick={()=>setOpen(!open)} className="bg-[#DBF4E7] p-5 rounded flex justify-between items-center cursor-pointer">
               <h4 className="text-black font-medium text-lg">{link?.lable}</h4>
               <IoIosArrowForward size={18} color="black" />
             </div>
@@ -42,7 +31,7 @@ const SettingContainer = () => {
         } else {
           return (
             <Link key={link.path} href={`/${link.path}`}>
-              <div className="bg-[#F8D9E1] p-5 rounded flex justify-between items-center">
+              <div className="bg-[#DBF4E7] p-5 rounded flex justify-between items-center">
                 <h4 className="text-black font-medium text-lg">
                   {link?.lable}
                 </h4>
