@@ -5,7 +5,7 @@ const antTheme = {
   },
   components: {
     Input: {
-      colorBorder: "rgb(244,16,16)",
+      colorBorder: "rgb(0,0,0)",
     },
     Layout: {
       bodyBg: "#0a8948",
@@ -32,7 +32,11 @@ const antTheme = {
       colorWarning: "rgb(205,3,53)",
     },
     Form: {
-      labelFontSize: 18,
+      labelFontSize: 16,
+      labelColor: "rgb(248,250,252)",
+    },
+    Spin: {
+      colorPrimary: "#0A8948",
     },
   },
 };

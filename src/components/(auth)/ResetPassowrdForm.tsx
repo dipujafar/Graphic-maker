@@ -35,23 +35,23 @@ const ResetPassowrdForm = () => {
           name="setPassword"
           rules={[{ required: true, message: "Please your set password!" }]}
         >
-          <Input.Password size="large" placeholder="Set your password" />
+          <Input.Password size="large" placeholder="Set your password" style={{border: "none"}}/>
         </Form.Item>
 
         <Form.Item<FieldType>
           name="reSetPassword"
           rules={[{ required: true, message: "Please input your password!" }]}
         >
-          <Input.Password size="large" placeholder="Re-enter password" />
+          <Input.Password size="large" placeholder="Re-enter password" style={{border: "none"}}/>
         </Form.Item>
 
         <Button
           htmlType="submit"
           size="large"
+          block
           style={{
-            backgroundColor: "#CD0335",
-            color: "#FFFFFF",
-            width: "100%",
+            backgroundColor: "#F8FAFC",
+            color: "#0DB760",
             border: "none",
           }}
         >

@@ -31,6 +31,8 @@ const ForgetPassForm = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
       layout="vertical"
+      style={{width: "480px"}}
+      
     >
       <Form.Item<FieldType>
         name="email"
@@ -42,16 +44,16 @@ const ForgetPassForm = () => {
           },
         ]}
       >
-        <Input size="large" placeholder="Email" />
+        <Input size="large" placeholder="Email" style={{border: "none"}} />
       </Form.Item>
 
       <Button
         htmlType="submit"
         size="large"
+        block
         style={{
           backgroundColor: "#F8FAFC",
           color: "#0DB760",
-          width: "100%",
           border: "none",
         }}
       >

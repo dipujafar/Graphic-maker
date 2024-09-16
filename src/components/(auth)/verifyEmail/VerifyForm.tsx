@@ -41,10 +41,10 @@ const VerifyEmailForm = () => {
       <Button
         htmlType="submit"
         size="large"
+        block
         style={{
-          backgroundColor: "#CD0335",
-          color: "#FFFFFF",
-          width: "100%",
+          backgroundColor: "#F8FAFC",
+          color: "#0DB760",
           border: "none",
         }}
       >

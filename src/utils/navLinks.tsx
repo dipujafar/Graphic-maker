@@ -2,6 +2,7 @@ import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { LiaMoneyCheckAltSolid } from "react-icons/lia";
 import { SlPeople } from "react-icons/sl";
 import { CiLogout } from "react-icons/ci";
+import { IoSettingsOutline } from "react-icons/io5";
 import Link from "next/link";
 
 export const navLinks = [
@@ -24,5 +25,10 @@ export const navLinks = [
     key: "logout",
     icon: <CiLogout   size={20} />,
     label: <Link href={"/login"}>Logout</Link>,
+  },
+  {
+    key: "settings",
+    icon: <IoSettingsOutline    size={20} />,
+    label: <Link href={"/settings"}>Settings</Link>,
   }
 ];
