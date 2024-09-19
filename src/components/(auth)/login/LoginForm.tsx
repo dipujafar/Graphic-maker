@@ -1,6 +1,12 @@
 "use client";
+
+import { useLoginMutation } from "@/redux/api/authApi";
+import { setUser } from "@/redux/features/authSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { Error_Modal, Success_model } from "@/utils/models";
 import type { FormProps } from "antd";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -15,11 +21,30 @@ const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
 };
 
 const LoginForm = () => {
-  const route = useRouter();
+  const dispatch = useAppDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+  const router = useRouter();
 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    route.push("/dashboard");
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    try {
+      const userData = { email: values?.email, password: values?.password };
+      const res = await login(userData).unwrap();
+      console.log(res?.data?.accessToken);
+      if (res?.data?.accessToken) {
+        Success_model({ title: "Login Successfull" });
+        dispatch(
+          setUser({
+            user: jwtDecode(res?.data?.accessToken),
+            token: res?.data?.accessToken,
+          })
+        );
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error: any) {
+      console.log(error);
+      Error_Modal({ title: error?.data?.message });
+    }
   };
 
   return (
@@ -74,6 +99,7 @@ const LoginForm = () => {
       </Form.Item>
 
       <Button
+        loading={isLoading}
         htmlType="submit"
         size="large"
         block

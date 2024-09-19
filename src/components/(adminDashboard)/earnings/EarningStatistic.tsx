@@ -2,7 +2,11 @@ import Image from "next/image";
 import dollerBule from "@/assets/icons/dollerBule.png";
 import dollerYellow from "@/assets/icons/dollerYellow.png";
 
-const EarningStatistic = () => {
+type TProps = {
+  todayEarnings: string,
+  totalEarnings: string
+}
+const EarningStatistic = ({todayEarnings,totalEarnings}: TProps) => {
   return (
     <div className="flex justify-between gap-6">
       <div className="flex items-center  gap-6 h-[165px] w-full p-4 bg-secondary rounded-xl">
@@ -11,7 +15,7 @@ const EarningStatistic = () => {
         </div>
         <div className="space-y-2">
           <h3 className="text-xl font-medium">Total Earning</h3>
-          <p className="text-3xl font-semibold ">$2.5K</p>
+          <p className="text-3xl font-semibold ">${todayEarnings}</p>
         </div>
       </div>
       <div className="flex items-center  gap-6 h-[165px] w-full p-4 bg-secondary rounded-xl">
@@ -20,7 +24,7 @@ const EarningStatistic = () => {
         </div>
         <div className="space-y-2">
           <h3 className="text-xl font-medium">Total Earning</h3>
-          <p className="text-3xl font-semibold ">$2.5K</p>
+          <p className="text-3xl font-semibold ">${totalEarnings}</p>
         </div>
       </div>
     </div>

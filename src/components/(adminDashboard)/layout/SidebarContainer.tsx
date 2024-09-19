@@ -1,13 +1,32 @@
-
-import { Menu } from "antd";
+"use client"
+import { Menu, MenuProps } from "antd";
 import Sider from "antd/es/layout/Sider";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/image/logo.png";
 import { navLinks } from "@/utils/navLinks";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/features/authSlice";
+import { Success_model } from "@/utils/models";
+import { useRouter } from "next/navigation";
 
 
 const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const OnClick: MenuProps["onClick"] = (e) => {
+    if (e.key === "logout") {
+      dispatch(logout());
+      router.refresh();
+      router.push("/login")
+
+      Success_model({title: "Logout successful"})
+    }
+  
+  };
+
+
   return (
     
       <Sider
@@ -32,6 +51,7 @@ const SidebarContainer = ({ collapsed }: { collapsed: boolean }) => {
 
         </div>
         <Menu
+        onClick={OnClick}
           defaultSelectedKeys={["dashboard"]}
           mode="inline"
           className="sidebar-menu text-lg bg-mainColor"

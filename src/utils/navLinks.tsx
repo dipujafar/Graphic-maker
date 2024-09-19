@@ -6,6 +6,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { TbMessage } from "react-icons/tb";
 import Link from "next/link";
 
+
+
 export const navLinks = [
   {
     key: "dashboard",
@@ -36,6 +38,6 @@ export const navLinks = [
   {
     key: "logout",
     icon: <RiLogoutCircleLine size={20} />,
-    label: <Link href={"/login"}>Logout</Link>,
+    label: "Logout",
   },
 ];
