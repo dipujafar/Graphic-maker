@@ -1,5 +1,6 @@
 import { url } from "inspector";
 import { baseApi } from "./baseApi";
+import { tagTypes } from "../tagTypes";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,12 +9,15 @@ const userApi = baseApi.injectEndpoints({
         url: "/users",
         method: "GET",
       }),
+
+      providesTags: [tagTypes.users]
     }),
     earnings: builder.query({
       query: () => ({
         url: "/payments/earnings",
         method: "GET",
       }),
+
     }),
     dashboardData: builder.query({
       query: () => ({
@@ -26,10 +30,12 @@ const userApi = baseApi.injectEndpoints({
         url: "/users/my-profile",
         method: "GET",
       }),
+
+      providesTags: [tagTypes.user]
     }),
     allRequest: builder.query({
       query: (data) => ({
-        url: `/request?email=${data}`,
+        url: `/request?searchTerm=${data}`,
         method: "GET",
       }),
     }),
@@ -44,9 +50,13 @@ const userApi = baseApi.injectEndpoints({
         url: "/users/update-my-profile",
         method: "PATCH",
         body: data
-      })
+      }),
+
+      invalidatesTags: [tagTypes.user]
     })
   }),
+
+  overrideExisting: true
 });
 
 export const {

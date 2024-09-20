@@ -1,36 +1,58 @@
 "use client";
-import { Button, Form, Input, Spin, Upload } from "antd";
+import { Button, Form, Input, Spin, Upload, message } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa6";
-import { FiEdit } from "react-icons/fi";
 import { useState } from "react";
 import PhoneInput from "antd-phone-input";
-import { toast } from "sonner";
 import { useProfileDataQuery, useUpdateProfileMutation } from "@/redux/api/userApi";
-import { FiUpload } from "react-icons/fi";
+import { CiEdit } from "react-icons/ci";
+import { Error_Modal, Success_model } from "@/utils/models";
 
 const PersonalInformationContainer = () => {
   const route = useRouter();
   const [form] = Form.useForm();
-  const [edit, setEdit] = useState(false);
+  const [fileList, setFileList] = useState([]); // Store selected file
   const { data: profileData, isLoading } = useProfileDataQuery(undefined);
-  const [updateProfile] = useUpdateProfileMutation();
-  console.log(profileData?.data);
+  const [updateProfile, {isLoading: isUpdating}] = useUpdateProfileMutation();
 
-  // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
-  const handleSubmit = (values) => {
-    const formData = new FormData();
-
-    formData.append("data", {})
-    formData.append("image", "imagefile")
-    try{
-
-    }catch(error){
-
+  // Handle file before uploading to verify it's an image
+  const beforeUpload = (file: any) => {
+    const isImage = file.type.startsWith("image/");
+    if (!isImage) {
+      message.error("You can only upload image files!");
+      return Upload.LIST_IGNORE; // Prevent upload if not an image
     }
+    return isImage; // Allow upload if it's an image
+  };
+
+  const handleUploadChange = ({ fileList: newFileList }: any) => {
+    setFileList(newFileList); // Update file list state
+  };
+
+  const handleSubmit = async (values: any) => {
+
+    const phoneNumber = values?.phone?.countryCode + values?.phone?.areaCode + values?.phone?.phoneNumber;
+
+    const updatedData = {name: values?.name, phoneNumber};
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(updatedData));
+
+    console.log(fileList);
     
-    setEdit(false);
+    if (fileList.length > 0) {
+      // @ts-ignore
+      formData.append("image", fileList[0].originFileObj); // Append selected image file
+    }
+
+    try {
+      await updateProfile(formData).unwrap();
+      Success_model({ title: "Profile updated successfully!!" });
+    } catch (error: any) {
+      console.log(error?.data?.message);
+      Error_Modal(error?.data?.message);
+    }
   };
 
   if (isLoading) {
@@ -41,6 +63,8 @@ const PersonalInformationContainer = () => {
     );
   }
 
+  console.log(profileData?.data?.phoneNumber);
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -50,18 +74,14 @@ const PersonalInformationContainer = () => {
           </span>
           <h4 className="text-2xl font-medium">Personal Information</h4>
         </div>
-        <div className={edit ? "hidden" : ""}>
-          <Button onClick={() => setEdit(true)} size="large" icon={<FiEdit />}>
-            Edit Profile
-          </Button>
-        </div>
+        
       </div>
 
       {/* personal information */}
-      <div className="mt-10 flex justify-center  gap-10">
-        <div className="bg-[#DBF4E7] h-[365px] w-1/4 rounded-xl border border-[#8D2E7D] flex justify-center items-center ">
+      <div className="mt-10 flex justify-center gap-10">
+        <div className="bg-[#DBF4E7] h-[365px] w-1/4 rounded-xl border border-[#8D2E7D] flex justify-center items-center">
           <div className="space-y-1">
-            <div>
+            <div className="relative">
               {profileData?.data?.image ? (
                 <Image
                   src={profileData?.data?.image}
@@ -69,15 +89,22 @@ const PersonalInformationContainer = () => {
                   height={600}
                   alt="adminProfile"
                   className="size-36 rounded-full"
-                ></Image>
+                />
               ) : (
                 <div className="size-10 rounded-full bg-[#DBF4E7] flex justify-center items-center text-lg font-medium text-black uppercase">
                   {profileData?.data?.name.slice(0, 1)}
                 </div>
               )}
-              <Upload>
-                <FiUpload />
-              </Upload>
+              <div className="p-1 absolute bottom-0 right-0 bg-transparent w-40">
+                <Upload
+                  beforeUpload={beforeUpload} // Attach validation function
+                  onChange={handleUploadChange} // Update state with the uploaded file
+                  fileList={fileList} // Maintain file list state
+                  maxCount={1} 
+                >
+                  <CiEdit  color="#000" className="size-7 cursor-pointer  bg-[#DBF4E7] rounded-xl  absolute bottom-5 right-2 "  />
+                </Upload>
+              </div>
             </div>
             <h3 className="text-2xl text-center capitalize">
               {profileData?.data?.role}
@@ -85,62 +112,47 @@ const PersonalInformationContainer = () => {
             <h5 className="text-lg text-center">Profile</h5>
           </div>
         </div>
+
         {/* form */}
         <div className="w-2/4">
           <Form
             form={form}
             onFinish={handleSubmit}
             layout="vertical"
-            style={{
-              marginTop: "25px",
-            }}
             initialValues={{
               name: profileData?.data?.name,
               email: profileData?.data?.email,
               phone: profileData?.data?.phoneNumber,
             }}
+            style={{ marginTop: "25px" }}
           >
-            {/*  input  name */}
+            {/* input name */}
             <Form.Item label="Name" name="name">
-              {edit ? (
-                <Input size="large" placeholder="Enter full name "></Input>
-              ) : (
-                <Input
-                  size="large"
-                  placeholder="Enter full name "
-                  readOnly
-                ></Input>
-              )}
+              
+                <Input size="large" placeholder="Enter full name" />
+              
             </Form.Item>
 
-            {/*  input  email */}
+            {/* input email */}
             <Form.Item label="Email" name="email">
-              {edit ? (
-                <Input size="large" placeholder="Enter email "></Input>
-              ) : (
-                <Input size="large" placeholder="Enter email" readOnly></Input>
-              )}
+            
+                <Input size="large" placeholder="Enter email" disabled={true} />
+            
             </Form.Item>
 
-            {/* input  phone number  */}
+            {/* input phone number */}
             <Form.Item label="Phone Number" name="phone">
-              {edit ? (
-                <PhoneInput
-                  size="large"
-                  readOnly
-                  enableArrow
-                  enableSearch
-                ></PhoneInput>
-              ) : (
-                <Input size="large" readOnly></Input>
-              )}
+              
+                <PhoneInput size="large" enableArrow enableSearch />
+            
             </Form.Item>
 
-            <div className={edit ? "" : "hidden"}>
-              <Button htmlType="submit" size="large" block>
-                Save Change
+            {/* Save Changes Button */}
+           
+              <Button loading={isUpdating} htmlType="submit" size="large" block>
+                Save Edits
               </Button>
-            </div>
+           
           </Form>
         </div>
       </div>

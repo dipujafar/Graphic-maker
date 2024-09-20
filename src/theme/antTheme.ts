@@ -21,9 +21,6 @@ const antTheme = {
       colorBgContainer: "#DBF4E7",
       headerSplitColor: "#0DB760",
     },
-    Modal: {
-      colorIcon: "rgba(255,255,255,0.45)",
-    },
     Button: {
       colorBgContainer: "rgb(13,183,96)",
       colorText: "rgb(255,255,255)",

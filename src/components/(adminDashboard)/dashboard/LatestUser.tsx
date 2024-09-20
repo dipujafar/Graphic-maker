@@ -24,12 +24,6 @@ type TProps = {
 const LatestUser = ({totalUsers, isLoading}: TProps) => {
  
 
-
-
-
-
-
-
   const columns: TableProps<TDataType>["columns"] = [
     {
       title: "Full Name",

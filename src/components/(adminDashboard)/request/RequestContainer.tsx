@@ -26,7 +26,7 @@ const RequestContainer = () => {
               border: "none",
               borderRadius: "80px",
             }}
-            placeholder="Search by email..."
+            placeholder="Search"
             onChange={handleChangeEmail} // Attach the change handler
             value={email} // Bind the input value to the email state
           ></Input>

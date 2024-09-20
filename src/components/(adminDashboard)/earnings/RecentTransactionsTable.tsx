@@ -5,16 +5,17 @@ import { useState } from "react";
 import DataTable from "@/utils/DataTable";
 import TransactionDetailsModal from "./TransactionDetailsModal";
 import moment from "moment";
+import { TEarning } from "@/types/types";
 
 type TDataType = {
   tnxId: number;
-  accountNumber: number;
+  name: string;
   amount: string;
   createdAt: string;
 };
 
 type TPropstype = {
-  allTransitions: Record<string, string>;
+  allTransitions: TEarning[];
   isLoading: boolean;
 };
 
@@ -22,14 +23,25 @@ const RecentTransactionsTable = ({ allTransitions, isLoading }: TPropstype) => {
   const [open, setOpen] = useState(false);
   const [record, setRecord] = useState({});
 
+  console.log(allTransitions);
+  
+  const earingsData = allTransitions?.map((item: TEarning)=>({
+    ...item,
+    name: item?.userData?.name,
+    email: item?.userData?.email,
+    phoneNumber: item?.userData?.phoneNumber,
+    address: item?.userData?.address,
+    order: item?.requestData?.title
+  }))
+
   const columns: TableProps<TDataType>["columns"] = [
     {
       title: "#Tr.ID",
       dataIndex: "tnxId",
     },
     {
-      title: "AccountNumber",
-      dataIndex: "accountNumber",
+      title: "Name",
+      dataIndex: "name",
     },
     {
       title: "Amount",
@@ -37,6 +49,10 @@ const RecentTransactionsTable = ({ allTransitions, isLoading }: TPropstype) => {
       render: (data)=>(
         <div>${data}</div>
       )
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
     },
 
     {
@@ -80,7 +96,7 @@ const RecentTransactionsTable = ({ allTransitions, isLoading }: TPropstype) => {
     <div>
       <DataTable
         columns={columns}
-        data={allTransitions}
+        data={earingsData}
         pageSize={15}
       ></DataTable>
       <TransactionDetailsModal
