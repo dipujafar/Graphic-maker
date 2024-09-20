@@ -12,7 +12,7 @@ const EarningContainer = () => {
         <div>
             <EarningStatistic todayEarnings={allEaring?.data?.todayEarnings} totalEarnings={allEaring?.data?.totalEarnings}></EarningStatistic>
             <div className='mt-10'>
-                <RecentTransactionsTable allTransitions={allEaring?.data?.allTransitions}></RecentTransactionsTable>
+                <RecentTransactionsTable allTransitions={allEaring?.data?.allTransitions} isLoading={isLoading}></RecentTransactionsTable>
             </div>
         </div>
     );

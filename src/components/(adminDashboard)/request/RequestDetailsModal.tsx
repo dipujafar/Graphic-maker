@@ -1,18 +1,31 @@
-import { Button, Divider, Modal } from "antd";
+import { Button, Divider, Modal, Spin } from "antd";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { TbMessage } from "react-icons/tb";
 import TransactionInfoFormModal from "./TransactionInfoFormModal";
 import { useState } from "react";
 import Link from "next/link";
+import { TRequestDataType } from "@/types/types";
 
 type TPropsType = {
   open: boolean;
   setOpen: (collapsed: boolean) => void;
+  data: TRequestDataType;
+  loading: boolean;
 };
 
-const RequestDetailsModal = ({ open, setOpen }: TPropsType) => {
-    const [openForm, setOpenForm] =  useState(false);
+const RequestDetailsModal = ({ open, setOpen, data, loading }: TPropsType) => {
+  const [openForm, setOpenForm] = useState(false);
+  console.log(data);
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
     <>
       <Modal
@@ -41,29 +54,26 @@ const RequestDetailsModal = ({ open, setOpen }: TPropsType) => {
           <Divider></Divider>
           <div className="mt-10">
             <div className="flex justify-between">
-              <h4>TSL: </h4>
-              <p className="font-medium">1</p>
+              <h4>Order : </h4>
+              <p className="font-medium">{data?.title}</p>
             </div>
             <Divider></Divider>
             <div className="flex justify-between">
               <h4>User Name : </h4>
-              <p className="font-medium">James Trcy</p>
+              <p className="font-medium">{data?.name}</p>
             </div>
             <Divider></Divider>
             <div className="flex justify-between">
               <h4>Phone number :</h4>
-              <p className="font-medium">123456789</p>
+              <p className="font-medium">{data?.phoneNumber}</p>
             </div>
             <Divider></Divider>
             <div className="flex justify-between">
               <h4>Email :</h4>
-              <p className="font-medium">opovai@gmail.com</p>
+              <p className="font-medium">{data?.email}</p>
             </div>
             <Divider></Divider>
-            <p className="max-w-[440px] text-center">
-              There are many variations of passages of Lorem Ipsum available,
-              but the majority
-            </p>
+            <p className="max-w-[440px] text-center">{data?.description}</p>
             <Divider></Divider>
           </div>
         </div>
@@ -85,20 +95,26 @@ const RequestDetailsModal = ({ open, setOpen }: TPropsType) => {
               size="large"
               icon={<IoCheckmarkCircleSharp />}
               style={{ width: "100%" }}
-              onClick={()=>{setOpen(false); setOpenForm(true)}}
+              onClick={() => {
+                setOpen(false);
+                setOpenForm(true);
+              }}
             >
               Mark as Complete
             </Button>
           </div>
           <Link href={"/message"}>
-          <Button block size="large">
-            Message
-            <TbMessage />
-          </Button>
+            <Button block size="large">
+              Message
+              <TbMessage />
+            </Button>
           </Link>
         </div>
       </Modal>
-      <TransactionInfoFormModal open={openForm} setOpen={setOpenForm}></TransactionInfoFormModal>
+      <TransactionInfoFormModal
+        open={openForm}
+        setOpen={setOpenForm}
+      ></TransactionInfoFormModal>
     </>
   );
 };

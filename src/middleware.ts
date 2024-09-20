@@ -22,8 +22,11 @@ export default function middleware(req: any) {
 
 export const config = {
   matcher: [
-    "/login",
-    "/apply-management",
-    "/profile"
+    "/dashboard",
+    "/earnings",
+    "/message",
+    "/request",
+    "/settings",
+    "/personalInformation"
   ],
 };

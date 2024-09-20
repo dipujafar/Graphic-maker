@@ -21,7 +21,40 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    profileData: builder.query({
+      query: () => ({
+        url: "/users/my-profile",
+        method: "GET",
+      }),
+    }),
+    allRequest: builder.query({
+      query: (data) => ({
+        url: `/request?email=${data}`,
+        method: "GET",
+      }),
+    }),
+    getsingleRequest: builder.query({
+      query: (id) => ({
+        url: `/request/${id}`,
+        method: "GET",
+      }),
+    }),
+    updateProfile : builder.mutation({
+      query: (data)=>({
+        url: "/users/update-my-profile",
+        method: "PATCH",
+        body: data
+      })
+    })
   }),
 });
 
-export const { useAllUserQuery, useEarningsQuery, useDashboardDataQuery } = userApi;
+export const {
+  useAllUserQuery,
+  useEarningsQuery,
+  useDashboardDataQuery,
+  useProfileDataQuery,
+  useAllRequestQuery,
+  useGetsingleRequestQuery,
+  useUpdateProfileMutation
+} = userApi;

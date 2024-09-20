@@ -1,27 +1,45 @@
 "use client";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Spin, Upload } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
-import profile from "@/assets/image/adminProfile.png";
 import { useState } from "react";
 import PhoneInput from "antd-phone-input";
 import { toast } from "sonner";
+import { useProfileDataQuery, useUpdateProfileMutation } from "@/redux/api/userApi";
+import { FiUpload } from "react-icons/fi";
 
 const PersonalInformationContainer = () => {
   const route = useRouter();
   const [form] = Form.useForm();
   const [edit, setEdit] = useState(false);
+  const { data: profileData, isLoading } = useProfileDataQuery(undefined);
+  const [updateProfile] = useUpdateProfileMutation();
+  console.log(profileData?.data);
 
   // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
   const handleSubmit = (values) => {
-    console.log("Success:", values);
-    toast.success("Successfully Change personal information", {
-      duration: 1000,
-    });
+    const formData = new FormData();
+
+    formData.append("data", {})
+    formData.append("image", "imagefile")
+    try{
+
+    }catch(error){
+
+    }
+    
     setEdit(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -43,12 +61,27 @@ const PersonalInformationContainer = () => {
       <div className="mt-10 flex justify-center  gap-10">
         <div className="bg-[#DBF4E7] h-[365px] w-1/4 rounded-xl border border-[#8D2E7D] flex justify-center items-center ">
           <div className="space-y-1">
-            <Image
-              src={profile}
-              alt="adminProfile"
-              className="size-36 rounded-full"
-            ></Image>
-            <h3 className="text-2xl text-center">Admin</h3>
+            <div>
+              {profileData?.data?.image ? (
+                <Image
+                  src={profileData?.data?.image}
+                  width={750}
+                  height={600}
+                  alt="adminProfile"
+                  className="size-36 rounded-full"
+                ></Image>
+              ) : (
+                <div className="size-10 rounded-full bg-[#DBF4E7] flex justify-center items-center text-lg font-medium text-black uppercase">
+                  {profileData?.data?.name.slice(0, 1)}
+                </div>
+              )}
+              <Upload>
+                <FiUpload />
+              </Upload>
+            </div>
+            <h3 className="text-2xl text-center capitalize">
+              {profileData?.data?.role}
+            </h3>
             <h5 className="text-lg text-center">Profile</h5>
           </div>
         </div>
@@ -62,9 +95,9 @@ const PersonalInformationContainer = () => {
               marginTop: "25px",
             }}
             initialValues={{
-              name: "James Tracy",
-              email: "enrique@gmail.com",
-              phone: "+880175544",
+              name: profileData?.data?.name,
+              email: profileData?.data?.email,
+              phone: profileData?.data?.phoneNumber,
             }}
           >
             {/*  input  name */}
@@ -92,9 +125,14 @@ const PersonalInformationContainer = () => {
             {/* input  phone number  */}
             <Form.Item label="Phone Number" name="phone">
               {edit ? (
-                <PhoneInput size="large" enableArrow enableSearch></PhoneInput>
+                <PhoneInput
+                  size="large"
+                  readOnly
+                  enableArrow
+                  enableSearch
+                ></PhoneInput>
               ) : (
-                <PhoneInput size="large"  readOnly  enableArrow enableSearch></PhoneInput>
+                <Input size="large" readOnly></Input>
               )}
             </Form.Item>
 

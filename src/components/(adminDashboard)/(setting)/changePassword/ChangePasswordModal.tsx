@@ -1,7 +1,10 @@
-import { Button, Form, Input, Modal} from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { RiCloseLargeLine } from "react-icons/ri";
 import ForgetPasswordModal from "./ForgetPasswordModal";
 import { useState } from "react";
+import { useChangePasswordMutation } from "@/redux/api/authApi";
+import { Error_Modal, Success_model } from "@/utils/models";
+import { useRouter } from "next/navigation";
 
 type TPropsType = {
   open: boolean;
@@ -9,13 +12,21 @@ type TPropsType = {
 };
 
 const ChangePasswordModal = ({ open, setOpen }: TPropsType) => {
+  const router = useRouter();
   const [form] = Form.useForm();
   const [openModal, setOpenModal] = useState(false);
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
-  const handleSubmit = (values) => {
-    console.log("Success:", values);
-    setOpen(false);
+  const handleSubmit = async (values) => {
+    try {
+      await changePassword(values).unwrap();
+      Success_model({ title: "Password change successfully!!" });
+      router.push("/login")
+    } catch (error: any) {
+      console.log(error?.data?.message);
+      Error_Modal(error?.data?.message);
+    }
   };
   return (
     <>
@@ -78,7 +89,11 @@ const ChangePasswordModal = ({ open, setOpen }: TPropsType) => {
                 { required: true, message: "Please Enter New  Password" },
               ]}
             >
-              <Input.Password size="large" placeholder="Set new password" />
+              <Input.Password
+                size="large"
+                placeholder="Set new password"
+                minLength={6}
+              />
             </Form.Item>
 
             {/* input  confirm number  */}
@@ -92,10 +107,11 @@ const ChangePasswordModal = ({ open, setOpen }: TPropsType) => {
               <Input.Password
                 size="large"
                 placeholder="Re-enter new password"
+                minLength={6}
               />
             </Form.Item>
 
-            <p
+            {/* <p
               onClick={() => {
                 setOpen(false);
                 setOpenModal(true);
@@ -103,19 +119,19 @@ const ChangePasswordModal = ({ open, setOpen }: TPropsType) => {
               className="mb-5 font-medium cursor-pointer text-mainColor"
             >
               Forget password?
-            </p>
+            </p> */}
 
-            <Button htmlType="submit" size="large" block>
+            <Button loading={isLoading} htmlType="submit" size="large" block>
               Update Password
             </Button>
           </Form>
         </div>
       </Modal>
-      {/* forget password Modal */}
+      {/* forget password Modal
       <ForgetPasswordModal
         open={openModal}
         setOpen={setOpenModal}
-      ></ForgetPasswordModal>
+      ></ForgetPasswordModal> */}
     </>
   );
 };
