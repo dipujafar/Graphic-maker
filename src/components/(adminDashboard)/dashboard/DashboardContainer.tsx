@@ -5,7 +5,6 @@ import { useDashboardDataQuery } from '@/redux/api/userApi';
 
 const DashboardContainer = () => {
     const {data, isLoading} = useDashboardDataQuery(undefined);
-    console.log(data?.data);
     return (
         <div>
             <Statistic totalEarnings={data?.data?.totalEarnings}></Statistic>

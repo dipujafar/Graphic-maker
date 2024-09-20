@@ -1,4 +1,5 @@
 import Invoice from "@/components/Invoice";
+import { TRequestDataType } from "@/types/types";
 import { PDFViewer } from "@react-pdf/renderer";
 import {
   Button,
@@ -10,68 +11,63 @@ import {
   Modal,
 } from "antd";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RiCloseLargeLine } from "react-icons/ri";
 
 type TPropsType = {
   open: boolean;
   setOpen: (collapsed: boolean) => void;
+  data?: TRequestDataType; // Make data optional
 };
 
 type FieldType = {
   category: string;
 };
 
-
-
-
-
-const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
+const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
   const [showPdf, setShowPdf] = useState(false);
+  const [datePick, setDatePick] = useState("");
+  const date = moment(datePick).format("MMM Do YYYY");
+  const [transactionInfo, setTransactionInfo] = useState();
 
-  const services = [
-    { description: "Logo Design", price: 12.34, quantity: 1 },
-    { description: " Banner Design ", price: 12.34, quantity: 1 },
-    { description: "T Shirt Design", price: 12.34, quantity: 1 },
-  ];
-
+ 
 
 
-  //date change function 
-  const onChangeDate: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
+ 
+
+  //date change function
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    setDatePick(dateString as string);
   };
 
-  //get fromdata 
+  //get form data
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
   };
 
-  // start invoice data section
- // Dynamically calculate invoice data using data prop
-//  const invoiceData = data && {
-//   invoiceNumber: "0001234",
-//   date: date,
-//   clientName: data.name,
-//   clientNumber: data.phoneNumber,
-//   clientAddress: data.address,
-//   clientPaypalEmail: "clientemail@example.com",
-//   services: [
-//     { description: data.order, price: data?.amount, quantity: 1 },
-//   ],
-//   total: data?.amount,
-//   contact: {
-//     email: "grafismodigital@gmai.com",
-//     website: "www.grafismodigital.com",
-//   },
-//   payment: {
-//     bank: "Banco Ensigma",
-//     accountName: "Luriel Zanabria",
-//     accountNumber: "0123 4567 8901",
-//   },
-// }
-
-  //  end invoice data section
+  const [invoiceData] = useState({
+    invoiceNumber: "0001234",
+    date: "5 de Enero del 2024",
+    clientName: "Andrés Piraquive",
+    clientNumber: "(55) 1234-5678",
+    clientAddress: "Calle cualquiera 123, cualquier lugar",
+    clientPaypalEmail: "paypalemail@example.com",
+    services: [
+      { description: "Servicio 1", price: 12.34, quantity: 1 },
+      { description: "Servicio 2", price: 12.34, quantity: 1 },
+      { description: "Servicio 3", price: 12.34, quantity: 1 },
+    ],
+    total: 37.02,
+    contact: {
+      email: "hola@sitioincreible.com",
+      website: "www.sitioincreible.com",
+    },
+    payment: {
+      bank: "Banco Ensigma",
+      accountName: "Luriel Zanabria",
+      accountNumber: "0123 4567 8901",
+    },
+  });
 
   return (
     <>
@@ -87,7 +83,7 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
         }}
       >
         <div
-          className="w-12 h-12 bg-[#D7263D]  absolute top-0 right-0 rounded-bl-3xl cursor-pointer"
+          className="w-12 h-12 bg-[#D7263D] absolute top-0 right-0 rounded-bl-3xl cursor-pointer"
           onClick={() => setOpen(false)}
         >
           <RiCloseLargeLine
@@ -103,18 +99,15 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
               layout="vertical"
               onFinish={onFinish}
               initialValues={{
-                email: "opovai@gmail.com",
-                order: "Logo",
-                date: moment("2024-09-16"),
+                email: data?.email || "",
+                order: data?.title || ""
               }}
             >
               {/* input Transaction Id */}
               <Form.Item
                 label="Transaction Id"
                 name="transactionId"
-                rules={[
-                  { required: true, message: "Please enter transaction id" },
-                ]}
+                rules={[{ required: true, message: "Please enter transaction id" }]}
               >
                 <Input size="large" placeholder="Enter transaction id" />
               </Form.Item>
@@ -126,7 +119,7 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
                 rules={[{ required: true, message: "Please select a date" }]}
               >
                 <DatePicker
-                  onChange={onChangeDate}
+                  onChange={onChange}
                   size="large"
                   style={{ width: "100%" }}
                 />
@@ -136,9 +129,7 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
               <Form.Item
                 label="A/C Number"
                 name="ACNumber"
-                rules={[
-                  { required: true, message: "Please enter account number" },
-                ]}
+                rules={[{ required: true, message: "Please enter account number" }]}
               >
                 <Input size="large" placeholder="Enter account number" />
               </Form.Item>
@@ -156,9 +147,7 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
               <Form.Item
                 label="Payment Method"
                 name="paymentMethod"
-                rules={[
-                  { required: true, message: "Please enter payment method" },
-                ]}
+                rules={[{ required: true, message: "Please enter payment method" }]}
               >
                 <Input size="large" placeholder="Enter payment method" />
               </Form.Item>
@@ -169,7 +158,7 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
                 name="email"
                 rules={[
                   { required: true, message: "Please enter your email" },
-                  { type: "email", message: "Please enter a valid email" },
+                  { type: "email", message: "Please enter a valid email" }
                 ]}
               >
                 <Input size="large" placeholder="Enter E-mail" />
@@ -199,7 +188,9 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
           </div>
         </div>
       </Modal>
-      {/* <Modal
+
+     
+      <Modal
         open={showPdf}
         onCancel={() => setShowPdf(false)}
         footer={null}
@@ -209,7 +200,7 @@ const TransactionInfoFormModal = ({ open, setOpen }: TPropsType) => {
         <PDFViewer width="600" height="800" style={{ marginTop: "20px" }}>
           <Invoice data={invoiceData} />
         </PDFViewer>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

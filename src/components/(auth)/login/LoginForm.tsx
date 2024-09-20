@@ -29,7 +29,7 @@ const LoginForm = () => {
     try {
       const userData = { email: values?.email, password: values?.password };
       const res = await login(userData).unwrap();
-      console.log(res?.data?.accessToken);
+
       if (res?.data?.accessToken) {
         Success_model({ title: "Login Successfull" });
         dispatch(
@@ -42,7 +42,6 @@ const LoginForm = () => {
         router.refresh();
       }
     } catch (error: any) {
-      console.log(error);
       Error_Modal({ title: error?.data?.message });
     }
   };

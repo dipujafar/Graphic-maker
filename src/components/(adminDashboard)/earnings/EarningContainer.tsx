@@ -5,9 +5,7 @@ import RecentTransactionsTable from './RecentTransactionsTable';
 import { useEarningsQuery } from '@/redux/api/userApi';
 
 const EarningContainer = () => {
-    const {data: allEaring, isLoading} = useEarningsQuery(undefined);
-    console.log(allEaring);
-    
+    const {data: allEaring, isLoading} = useEarningsQuery(undefined);    
     return (
         <div>
             <EarningStatistic todayEarnings={allEaring?.data?.todayEarnings} totalEarnings={allEaring?.data?.totalEarnings}></EarningStatistic>

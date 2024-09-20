@@ -38,8 +38,6 @@ const PersonalInformationContainer = () => {
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(updatedData));
-
-    console.log(fileList);
     
     if (fileList.length > 0) {
       // @ts-ignore
@@ -50,7 +48,6 @@ const PersonalInformationContainer = () => {
       await updateProfile(formData).unwrap();
       Success_model({ title: "Profile updated successfully!!" });
     } catch (error: any) {
-      console.log(error?.data?.message);
       Error_Modal(error?.data?.message);
     }
   };
@@ -63,7 +60,6 @@ const PersonalInformationContainer = () => {
     );
   }
 
-  console.log(profileData?.data?.phoneNumber);
 
   return (
     <div>

@@ -24,7 +24,6 @@ const ResetPassowrdForm = () => {
       Success_model({ title: "Password reset successfully!!" });
       route.push("/login");
     } catch (error: any) {
-      console.log(error?.data?.message);
       Error_Modal(error?.data?.message);
     }
     

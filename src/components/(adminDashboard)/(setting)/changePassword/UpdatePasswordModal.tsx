@@ -9,9 +9,8 @@ type TPropsType = {
 const UpdatePasswordModal = ({ open, setOpen }: TPropsType) => {
   const [form] = Form.useForm();
 
-// @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
+  // @ts-expect-error: Ignoring TypeScript error due to inferred 'any' type for 'values' which is handled in the form submit logic
   const handleSubmit = (values) => {
-    console.log("Success:", values);
     setOpen(false);
   };
   return (
@@ -41,11 +40,9 @@ const UpdatePasswordModal = ({ open, setOpen }: TPropsType) => {
           {/* header */}
           <div>
             <h4 className=" text-2xl font-medium text-center">
-            Update Password
+              Update Password
             </h4>
-            <p className="mt-1 text-center">
-            Please enter your new password
-            </p>
+            <p className="mt-1 text-center">Please enter your new password</p>
           </div>
 
           {/* form */}

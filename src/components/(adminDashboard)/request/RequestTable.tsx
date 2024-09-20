@@ -24,8 +24,6 @@ const RequestTable = ({data, loading}: TPropsType) => {
   const [id, setId] = useState("");
   const { data: singleRequestData, isLoading: singleDataLoading } = useGetsingleRequestQuery(id);
 
-  console.log(id);
-  console.log(data);
 
   // Add a key (for #SI) to each item in the requests data
   const requestDataWithKeys = data?.map(
@@ -134,12 +132,14 @@ const RequestTable = ({data, loading}: TPropsType) => {
   return (
     <div>
       <DataTable columns={columns} data={requestDataWithKeys} pageSize={10} />
+
       <RequestDetailsModal
         open={open}
         setOpen={setOpen}
         data={singleRequestData?.data}
         loading={singleDataLoading}
       />
+      
     </div>
   );
 };

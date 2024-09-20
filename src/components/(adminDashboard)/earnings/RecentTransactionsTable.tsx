@@ -23,7 +23,7 @@ const RecentTransactionsTable = ({ allTransitions, isLoading }: TPropstype) => {
   const [open, setOpen] = useState(false);
   const [record, setRecord] = useState({});
 
-  console.log(allTransitions);
+
   
   const earingsData = allTransitions?.map((item: TEarning)=>({
     ...item,

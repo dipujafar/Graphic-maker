@@ -33,7 +33,6 @@ const VerifyEmailForm = () => {
       sessionStorage.removeItem("email");
       route.push("/resetPassword");
     } catch (error: any) {
-      console.log(error);
       Error_Modal({ title: error?.data?.message });
     }
   };
@@ -48,7 +47,6 @@ const VerifyEmailForm = () => {
       Success_model({ title: "An otp re-sent to your email" });
       
     } catch (error: any) {
-      console.log(error);
       Error_Modal({ title: error?.data?.message });
     }
   };

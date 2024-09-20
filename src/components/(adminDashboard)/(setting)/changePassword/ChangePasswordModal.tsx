@@ -24,7 +24,6 @@ const ChangePasswordModal = ({ open, setOpen }: TPropsType) => {
       Success_model({ title: "Password change successfully!!" });
       router.push("/login")
     } catch (error: any) {
-      console.log(error?.data?.message);
       Error_Modal(error?.data?.message);
     }
   };

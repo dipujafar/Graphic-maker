@@ -16,7 +16,6 @@ type TPropsType = {
 
 const RequestDetailsModal = ({ open, setOpen, data, loading }: TPropsType) => {
   const [openForm, setOpenForm] = useState(false);
-  console.log(data);
 
   if (loading) {
     return (
@@ -39,81 +38,85 @@ const RequestDetailsModal = ({ open, setOpen, data, loading }: TPropsType) => {
           position: "relative",
         }}
       >
-        <div
-          className="w-12 h-12 bg-[#D7263D]  absolute top-0 right-0 rounded-bl-3xl cursor-pointer"
-          onClick={() => setOpen(false)}
-        >
-          <RiCloseLargeLine
-            size={18}
-            color="#fff"
-            className="absolute top-1/3 left-1/3"
-          />
-        </div>
-        <div className="pb-10">
-          <h4 className="text-center text-xl ">Request Details</h4>
-          <Divider></Divider>
-          <div className="mt-10">
-            <div className="flex justify-between">
-              <h4>Order : </h4>
-              <p className="font-medium">{data?.title}</p>
-            </div>
-            <Divider></Divider>
-            <div className="flex justify-between">
-              <h4>User Name : </h4>
-              <p className="font-medium">{data?.name}</p>
-            </div>
-            <Divider></Divider>
-            <div className="flex justify-between">
-              <h4>Phone number :</h4>
-              <p className="font-medium">{data?.phoneNumber}</p>
-            </div>
-            <Divider></Divider>
-            <div className="flex justify-between">
-              <h4>Email :</h4>
-              <p className="font-medium">{data?.email}</p>
-            </div>
-            <Divider></Divider>
-            <p className="max-w-[440px] text-center">{data?.description}</p>
-            <Divider></Divider>
+        
+        <div>
+          <div
+            className="w-12 h-12 bg-[#D7263D]  absolute top-0 right-0 rounded-bl-3xl cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <RiCloseLargeLine
+              size={18}
+              color="#fff"
+              className="absolute top-1/3 left-1/3"
+            />
           </div>
-        </div>
-        <div className="space-y-4">
-          <div className="flex gap-2 mb-3">
-            <Button
-              size="large"
-              style={{
-                width: "100%",
-                backgroundColor: "transparent",
-                border: "1px solid #0DB760",
-                color: "#0DB760",
-              }}
-              onClick={() => setOpen(!open)}
-            >
-              Cancle
-            </Button>
-            <Button
-              size="large"
-              icon={<IoCheckmarkCircleSharp />}
-              style={{ width: "100%" }}
-              onClick={() => {
-                setOpen(false);
-                setOpenForm(true);
-              }}
-            >
-              Mark as Complete
-            </Button>
+          <div className="pb-10">
+            <h4 className="text-center text-xl ">Request Details</h4>
+            <Divider></Divider>
+            <div className="mt-10">
+              <div className="flex justify-between">
+                <h4>Order : </h4>
+                <p className="font-medium">{data?.title}</p>
+              </div>
+              <Divider></Divider>
+              <div className="flex justify-between">
+                <h4>User Name : </h4>
+                <p className="font-medium">{data?.name}</p>
+              </div>
+              <Divider></Divider>
+              <div className="flex justify-between">
+                <h4>Phone number :</h4>
+                <p className="font-medium">{data?.phoneNumber}</p>
+              </div>
+              <Divider></Divider>
+              <div className="flex justify-between">
+                <h4>Email :</h4>
+                <p className="font-medium">{data?.email}</p>
+              </div>
+              <Divider></Divider>
+              <p className="max-w-[440px] text-center">{data?.description}</p>
+              <Divider></Divider>
+            </div>
           </div>
-          <Link href={"/message"}>
-            <Button block size="large">
-              Message
-              <TbMessage />
-            </Button>
-          </Link>
+          <div className="space-y-4">
+            <div className="flex gap-2 mb-3">
+              <Button
+                size="large"
+                style={{
+                  width: "100%",
+                  backgroundColor: "transparent",
+                  border: "1px solid #0DB760",
+                  color: "#0DB760",
+                }}
+                onClick={() => setOpen(!open)}
+              >
+                Cancle
+              </Button>
+              <Button
+                size="large"
+                icon={<IoCheckmarkCircleSharp />}
+                style={{ width: "100%" }}
+                onClick={() => {
+                  setOpen(false);
+                  setOpenForm(true);
+                }}
+              >
+                Mark as Complete
+              </Button>
+            </div>
+            <Link href={"/message"}>
+              <Button block size="large">
+                Message
+                <TbMessage />
+              </Button>
+            </Link>
+          </div>
         </div>
       </Modal>
       <TransactionInfoFormModal
-        open={openForm}
+        open={data &&openForm}
         setOpen={setOpenForm}
+        data={ data}
       ></TransactionInfoFormModal>
     </>
   );
