@@ -28,12 +28,13 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
   const [showPdf, setShowPdf] = useState(false);
   const [datePick, setDatePick] = useState("");
   const date = moment(datePick).format("MMM Do YYYY");
-  const [transactionInfo, setTransactionInfo] = useState();
+  const [transactionInfo, setTransactionInfo] = useState(data);
 
- 
-
-
- 
+  useEffect(() => {
+    if (data) {
+      setTransactionInfo(data);
+    }
+  }, [data]);
 
   //date change function
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
@@ -42,32 +43,9 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
 
   //get form data
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
+    const transactionData = { ...values, date };
+    console.log(transactionData);
   };
-
-  const [invoiceData] = useState({
-    invoiceNumber: "0001234",
-    date: "5 de Enero del 2024",
-    clientName: "Andrés Piraquive",
-    clientNumber: "(55) 1234-5678",
-    clientAddress: "Calle cualquiera 123, cualquier lugar",
-    clientPaypalEmail: "paypalemail@example.com",
-    services: [
-      { description: "Servicio 1", price: 12.34, quantity: 1 },
-      { description: "Servicio 2", price: 12.34, quantity: 1 },
-      { description: "Servicio 3", price: 12.34, quantity: 1 },
-    ],
-    total: 37.02,
-    contact: {
-      email: "hola@sitioincreible.com",
-      website: "www.sitioincreible.com",
-    },
-    payment: {
-      bank: "Banco Ensigma",
-      accountName: "Luriel Zanabria",
-      accountNumber: "0123 4567 8901",
-    },
-  });
 
   return (
     <>
@@ -99,19 +77,10 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
               layout="vertical"
               onFinish={onFinish}
               initialValues={{
-                email: data?.email || "",
-                order: data?.title || ""
+                email: transactionInfo?.email || "",
+                order: transactionInfo?.title || "",
               }}
             >
-              {/* input Transaction Id */}
-              <Form.Item
-                label="Transaction Id"
-                name="transactionId"
-                rules={[{ required: true, message: "Please enter transaction id" }]}
-              >
-                <Input size="large" placeholder="Enter transaction id" />
-              </Form.Item>
-
               {/* input Transaction Date */}
               <Form.Item
                 label="Date"
@@ -127,11 +96,13 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
 
               {/* input A/C Number */}
               <Form.Item
-                label="A/C Number"
-                name="ACNumber"
-                rules={[{ required: true, message: "Please enter account number" }]}
+                label="Paypal Email"
+                name="paypalEmail"
+                rules={[
+                  { required: true, message: "Please enter paypal email" },
+                ]}
               >
-                <Input size="large" placeholder="Enter account number" />
+                <Input size="large" placeholder="Enter paypal email" />
               </Form.Item>
 
               {/* input Transaction Amount */}
@@ -147,7 +118,9 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
               <Form.Item
                 label="Payment Method"
                 name="paymentMethod"
-                rules={[{ required: true, message: "Please enter payment method" }]}
+                rules={[
+                  { required: true, message: "Please enter payment method" },
+                ]}
               >
                 <Input size="large" placeholder="Enter payment method" />
               </Form.Item>
@@ -158,7 +131,7 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
                 name="email"
                 rules={[
                   { required: true, message: "Please enter your email" },
-                  { type: "email", message: "Please enter a valid email" }
+                  { type: "email", message: "Please enter a valid email" },
                 ]}
               >
                 <Input size="large" placeholder="Enter E-mail" />
@@ -173,33 +146,12 @@ const TransactionInfoFormModal = ({ open, setOpen, data }: TPropsType) => {
                 <Input size="large" placeholder="Enter Order" />
               </Form.Item>
 
-              <Button
-                htmlType="submit"
-                block
-                size="large"
-                onClick={() => {
-                  setShowPdf(true);
-                  setOpen(false);
-                }}
-              >
-                Download Invoice
+              <Button htmlType="submit" block size="large">
+                Submit
               </Button>
             </Form>
           </div>
         </div>
-      </Modal>
-
-     
-      <Modal
-        open={showPdf}
-        onCancel={() => setShowPdf(false)}
-        footer={null}
-        style={{ minWidth: "max-content" }}
-        centered={true}
-      >
-        <PDFViewer width="600" height="800" style={{ marginTop: "20px" }}>
-          <Invoice data={invoiceData} />
-        </PDFViewer>
       </Modal>
     </>
   );

@@ -114,6 +114,7 @@ const RequestDetailsModal = ({ open, setOpen, data, loading }: TPropsType) => {
         </div>
       </Modal>
       <TransactionInfoFormModal
+      key={data?._id}
         open={data &&openForm}
         setOpen={setOpenForm}
         data={ data}

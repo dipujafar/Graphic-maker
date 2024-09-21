@@ -123,9 +123,7 @@ const Invoice = ({ data }: any) => {
           </View>
           <View>
             <Text style={styles.title}>FACTURA</Text>
-            <Text style={styles.headerText}>
-              Factura N° {data.invoiceNumber}
-            </Text>
+
             <Text style={styles.headerText}>Fecha: {data.date}</Text>
           </View>
         </View>
@@ -136,13 +134,23 @@ const Invoice = ({ data }: any) => {
           <Text>
             <Text style={styles.textBold}>Nombre:</Text> {data.clientName}
           </Text>
-          <Text>
-            <Text style={styles.textBold}>Número:</Text> {data.clientNumber}
-          </Text>
-          <Text>
-            <Text style={styles.textBold}>Dirección:</Text> {data.clientAddress}
-          </Text>
-          {/* <Text><Text style={styles.textBold}>PayPal Email:</Text> {data.clientPaypalEmail}</Text> */}
+          {data.clientNumber ? (
+            <Text>
+              <Text style={styles.textBold}>Número:</Text> {data.clientNumber}
+            </Text>
+          ) : (
+            ""
+          )}
+          {data.clientAddress ? (
+            <Text>
+              <Text style={styles.textBold}>Dirección:</Text>{" "}
+              {data.clientAddress}
+            </Text>
+          ) : (
+            ""
+          )}
+
+      
         </View>
 
         {/* Service Table */}
@@ -174,20 +182,9 @@ const Invoice = ({ data }: any) => {
           ))}
         </View>
 
-        {/* Total */}
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Sub-total: </Text>
-          <Text>${data.total.toFixed(2)}</Text>
-        </View>
-        <View style={styles.totalRow}>
-          <Text style={styles.totalLabel}>Descuento (15%): </Text>
-          <Text>${(data.total * 0.15).toFixed(2)}</Text>
-        </View>
-        <View style={styles.totalRow}>
+        <View style={[styles.totalRow, {display: "flex", alignItems: "center"}]}>
           <Text style={styles.totalLabel}>TOTAL: </Text>
-          <Text style={styles.totalValue}>
-            ${(data.total - data.total * 0.15).toFixed(2)}
-          </Text>
+          <Text style={styles.totalValue}>${data.total.toFixed(2)}</Text>
         </View>
 
         {/* Contact Information */}
@@ -207,17 +204,18 @@ const Invoice = ({ data }: any) => {
             </Text>
           </View>
           <View>
-            <Text style={styles.sectionTitle}>FIRMA</Text>
-            
-            <Text>______________________</Text>
             <View style={styles.logoContainer}>
-              <Image src={`/signatures.png`}   style={[
-            
-              {
-               height: "50px"
-              },
-            ]} />
+              <Image
+                src={`/signatures.png`}
+                style={[
+                  {
+                    height: "50px",
+                  },
+                ]}
+              />
             </View>
+            <Text>______________________</Text>
+            <Text style={styles.sectionTitle}>FIRMA</Text>
           </View>
         </View>
       </Page>

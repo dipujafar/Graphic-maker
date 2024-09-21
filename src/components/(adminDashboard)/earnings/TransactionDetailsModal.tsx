@@ -18,11 +18,10 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
 
   // Dynamically calculate invoice data using data prop
   const invoiceData = data && {
-    invoiceNumber: "0001234",
     date: date,
     clientName: data.name,
-    clientNumber: data.phoneNumber,
-    clientAddress: data.address,
+    clientNumber: data.phoneNumber ? data.phoneNumber : "" ,
+    clientAddress: data.address ? data.address : "" ,
     clientPaypalEmail: "clientemail@example.com",
     services: [
       { description: data.order, price: data?.amount, quantity: 1 },
@@ -71,7 +70,7 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>Transaction ID :</h4>
-                  <p className="font-medium">{data.tnxId}</p>
+                  <p className="font-medium">{data?.tnxId}</p>
                 </div>
                 <Divider></Divider>
               </>
@@ -89,7 +88,7 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>A/C number :</h4>
-                  <p className="font-medium">{data.accountNumber}</p>
+                  <p className="font-medium">{data?.accountNumber}</p>
                 </div>
                 <Divider></Divider>
               </>
@@ -98,7 +97,7 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>Transaction amount :</h4>
-                  <p className="font-medium">${data.amount}</p>
+                  <p className="font-medium">${data?.amount}</p>
                 </div>
                 <Divider></Divider>
               </>
@@ -107,7 +106,16 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>Email :</h4>
-                  <p className="font-medium">{data.email}</p>
+                  <p className="font-medium">{data?.email}</p>
+                </div>
+                <Divider></Divider>
+              </>
+            )}
+            {data?.paypalEmail && (
+              <>
+                <div className="flex justify-between">
+                  <h4>Paypal Email :</h4>
+                  <p className="font-medium">{data?.paypalEmail}</p>
                 </div>
                 <Divider></Divider>
               </>
@@ -116,7 +124,7 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>Order :</h4>
-                  <p className="font-medium">{data.order}</p>
+                  <p className="font-medium">{data?.order}</p>
                 </div>
                 <Divider></Divider>
               </>
@@ -125,7 +133,7 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>Payment Type :</h4>
-                  <p className="font-medium">{data.paymentType}</p>
+                  <p className="font-medium">{data?.paymentType}</p>
                 </div>
                 <Divider></Divider>
               </>
@@ -134,7 +142,7 @@ const TransactionDetailsModal = ({ open, setOpen, data }: TPropsType) => {
               <>
                 <div className="flex justify-between">
                   <h4>Payment Method :</h4>
-                  <p className="font-medium">{data.paymentMethod}</p>
+                  <p className="font-medium">{data?.paymentMethod}</p>
                 </div>
                 <Divider></Divider>
               </>
